@@ -20,20 +20,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  box-sizing: border-box;
+#app {
   background-color: #fff;
-  .header {
-    text-align: center;
-  }
-  .tabber {
-    position: flex;
-    left: 0;
-    right: 0;
-    bottom: 0;
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    background-color: #fff;
+    .header {
+      text-align: center;
+    }
+    .tabber {
+      position: flex;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
   }
 }
 </style> 

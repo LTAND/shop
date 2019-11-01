@@ -1,24 +1,22 @@
 <template>
-  <div class="category-wrapper">
+  <div class="category-box">
     <van-sidebar class="left-box" v-model="activeKey" @change="onChangeSidebar">
       <van-sidebar-item v-for="item in categoryArr" :key="item.id" :title="item.name" />
     </van-sidebar>
     <div class="right-box">
       <div class="category-detail-box" v-show="activeKey == good.activeKey" v-for="good in goods" :key="good.id">
         <div class="category-header">
-          <img :src="good.headerImg" alt />
+          <img :src="good.headerImg" />
         </div>
         <div class="category-title">
           <span class="text"></span>
         </div>
-        <div class="category-main">
-          <ul class="category-goods-items">
-            <li class="middle" v-for="item in good.data" :key="item.id">
-              <img :src="item.mainImgUrl"/>
-              <p>{{item.name}}</p>
-            </li>
-          </ul>
-        </div>
+        <ul class="category-main">
+          <li v-for="(item, index) in good.data" :key="item.id" class="category-goods-items" :class="index%3==1?'middle':''">
+            <img :src="item.mainImgUrl" />
+            <p>{{item.name}}</p>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -30,18 +28,17 @@ export default {
     return {
       activeKey: 0,
       categoryArr: [],
-      goods:[]
+      goods: []
     };
   },
   created() {
     this._getCategoryType();
-    this._getProductsByCategory(this.activeKey+2); // 第一次加载请求商品id2 
+    this._getProductsByCategory(this.activeKey + 2); // 第一次加载请求商品id2
   },
-  computed: {
-  },
+  computed: {},
   methods: {
     onChangeSidebar(index) {
-      this._getProductsByCategory(index+2)
+      this._getProductsByCategory(index + 2);
       console.log("activeKey", index);
     },
     _getCategoryType() {
@@ -49,22 +46,23 @@ export default {
         this.categoryArr = res.data;
       });
     },
-    _findGood(list,goal){
-      return list.find(v=>{
-        return v.id == goal
-      })
+    _findGood(list, goal) {
+      return list.find(v => {
+        return v.id == goal;
+      });
     },
     _getProductsByCategory(id) {
       this.$api.category.getProductsByCategory(id).then(res => {
-        if(this._findGood(this.goods,id)){
-          return
+        if (this._findGood(this.goods, id)) {
+          return;
         }
         this.goods.push({
           id,
-          headerImg:this.categoryArr[this.activeKey].img.url,
-          activeKey:this.activeKey,
-          data:res.data
-        })
+          title: this.categoryArr[this.activeKey].name,
+          headerImg: this.categoryArr[this.activeKey].img.url,
+          activeKey: this.activeKey,
+          data: res.data
+        });
       });
     }
   }
@@ -72,51 +70,67 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.category-wrapper {
+.category-box {
   display: flex;
-  .category-detail-box {
-    overflow: hidden;
-    padding: 20px;
-    .category-header {
-      height: 200px;
-      text-align: center;
-      img {
-        width: 520px;
-        border-radius: 5px;
-        max-height: 100%;
-      }
-    }
-    .category-title {
-      margin: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      .text {
-        font-size: 24px;
-        color: #ab956d;
-        &::before,
-        &::after {
-          content: "";
-          display: inline-block;
-          position: relative;
-          top: -6px;
-          width: 70px;
-          height: 2px;
-          margin: 0 20px;
-          background-color: #979797;
+  height: 100%;
+  overflow: hidden;
+  .left-box {
+    flex: 0 0 150px;
+    height: 100%;
+    border-right: 1px solid #d8d8d8;
+  }
+  .right-box {
+    flex: 1;
+    height: 100%;
+    .category-detail-box {
+      overflow: hidden;
+      padding: 20px;
+      .category-header {
+        height: 200px;
+        text-align: center;
+        img {
+          width: 520px;
+          border-radius: 5px;
+          max-height: 100%;
         }
       }
-    }
-    .category-main {
-      .category-goods-items {
-        margin-bottom: 20px;
-        width: 30%;
-        .middle {
-          margin: 0 20px;
+      .category-title {
+        margin: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .text {
+          font-size: 24px;
+          color: #ab956d;
+          &::before,
+          &::after {
+            content: "";
+            display: inline-block;
+            position: relative;
+            top: -6px;
+            width: 70px;
+            height: 2px;
+            margin: 0 20px;
+            background-color: #979797;
+          }
+        }
+      }
+      .category-main {
+        display: flex;
+        flex-wrap: wrap;
+        // justify-content: space-around;
+        .category-goods-items {
+          width: 30%;
+          margin-bottom: 20px;
+          text-align: center;
+          &.middle {
+            margin: 0 20px;
+          }
           img {
             width: 120px;
             height: 120px;
             border-radius: 120px;
+            margin: 0 auto;
           }
           p {
             color: #444452;
