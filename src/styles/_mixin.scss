@@ -73,7 +73,10 @@
 @mixin clearfix() {
   &::before,
   &::after {
-    content: "";
+    content: ".";
+    height: 0;
+    font-size: 0;
+    visibility: hidden;
     display: table;
   }
   &::after {

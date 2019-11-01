@@ -19,7 +19,7 @@ module.exports = {
           }),
           pxtorem({
             rootValue: 75,              // 设计稿 640，750，1125 分成100份 1a = 7.5px，1rem = 75px
-            propList: ['*', '!font*'],  // !不匹配属性（这里是字体相关属性不转换）
+            propList: ['*'],  // !不匹配属性（这里是字体相关属性不转换）['*', '!font*']
             unitPrecision: 3,           // 最小精度，小数点位数
             minPixelValue: 2,           // 替换的最小像素值
             selectorBlackList: ['van']  // 过滤掉以van开头的样式
@@ -30,7 +30,7 @@ module.exports = {
   },
   devServer: {
     open: true, //是否自动弹出浏览器页面
-    host: "localhost",
+    host: "0.0.0.0",
     port: '8081',
     https: false,   //是否使用https协议
     hotOnly: true, //是否开启热更新

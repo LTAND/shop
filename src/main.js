@@ -6,10 +6,13 @@ import store from './store'
 import 'amfe-flexible/index.js'  // rem h5 适配
 import Vant from 'vant';
 import 'vant/lib/index.css';
+Vue.use(Vant);
 
 import './styles/index.scss' /* 引入样式 */
 
-Vue.use(Vant);
+import {api} from "./api/index"
+Vue.prototype.$api = api
+
 
 Vue.config.productionTip = false
 

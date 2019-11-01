@@ -1,8 +1,12 @@
 <template>
   <div id="app">
-    <div class="nav">零食商贩</div>
-    <router-view />
-    <tabber></tabber>
+    <div class="container">
+      <div class="header">零食商贩</div>
+      <div>
+        <router-view />
+      </div>
+      <tabber class="tabber"></tabber>
+    </div>
   </div>
 </template>
 
@@ -15,10 +19,21 @@ export default {
 };
 </script>
 
-<style lang="scss">
-#app {
+<style lang="scss" scoped>
+.container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  background-color: #fff;
+  .header {
+    text-align: center;
+  }
+  .tabber {
+    position: flex;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
 }
-</style>
+</style> 
