@@ -4,6 +4,9 @@
       <van-sidebar-item v-for="item in categoryArr" :key="item.id" :title="item.name" />
     </van-sidebar>
     <div class="right-box">
+      <div v-if="loadingFlag" class="loadingFlag" >
+        <van-loading size="24px" vertical>加载中...</van-loading>
+      </div>
       <div class="category-detail-box" v-show="activeKey == good.activeKey" v-for="good in goods" :key="good.id">
         <div class="category-header">
           <img :src="good.headerImg" />
@@ -13,8 +16,10 @@
         </div>
         <ul class="category-main">
           <li v-for="(item, index) in good.data" :key="item.id" class="category-goods-items" :class="index%3==1?'middle':''">
-            <img :src="item.mainImgUrl" />
-            <p>{{item.name}}</p>
+            <div @click="goProduct(item)">
+              <img :src="item.mainImgUrl" />
+              <p>{{item.name}}</p>
+            </div>
           </li>
         </ul>
       </div>
@@ -35,8 +40,33 @@ export default {
     this._getCategoryType();
     this._getProductsByCategory(this.activeKey + 2); // 第一次加载请求商品id2
   },
-  computed: {},
+  computed: {
+    loadingFlag(){
+      if(this.categoryArr.length){
+        return false
+      }else{
+        return true
+      }
+    },
+    title(){
+      return this.categoryArr[this.activeKey].name
+    },
+    headerImg(){
+      return this.categoryArr[this.activeKey].img.url
+    }
+  },
+  watch:{
+    categoryArr(newVal){
+      if(newVal){
+        this._getProductsByCategory(this.activeKey + 2); // 第一次加载请求商品id2
+      }
+    }
+  },
   methods: {
+    goProduct(item){
+      // this.$router.push({ path: `/singer/${singer.id}` });
+      this.$router.push({name:"product", params: {id: item.id}})
+    },
     onChangeSidebar(index) {
       this._getProductsByCategory(index + 2);
       console.log("activeKey", index);
@@ -58,8 +88,8 @@ export default {
         }
         this.goods.push({
           id,
-          title: this.categoryArr[this.activeKey].name,
-          headerImg: this.categoryArr[this.activeKey].img.url,
+          title:this.title,
+          headerImg: this.headerImg,
           activeKey: this.activeKey,
           data: res.data
         });
@@ -82,6 +112,12 @@ export default {
   .right-box {
     flex: 1;
     height: 100%;
+    .loadingFlag{
+      position: absolute;
+      width: 80%;
+      top: 50%;
+      transform: translateY(-50%);// 垂直居中对齐
+    }
     .category-detail-box {
       overflow: hidden;
       padding: 20px;

@@ -2,24 +2,31 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Category from "./views/Category.vue"
+import Product from './views/Product.vue';
+
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
+      name: 'home',
       path: '/',
-      name: 'home',
       component: Home
     },
     {
+      name: 'home',
       path: '/home',
-      name: 'home',
       component: Home
     },
     {
-      path: '/category',
       name: 'category',
+      path: '/category',
       component: Category
+    },
+    {
+      name: 'product',
+      path: '/product/:id',
+      component: Product
     },
     {
       path: '/about',
