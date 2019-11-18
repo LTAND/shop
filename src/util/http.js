@@ -67,7 +67,7 @@ let instance = axios.create({ timeout: 1000 * 12 });
 if (process.env.NODE_ENV == 'development') {
   instance.defaults.baseURL = '/v1';
 } else if (process.env.NODE_ENV == 'production') {
-  instance.defaults.baseURL = '/v1';
+  instance.defaults.baseURL = 'http://localhost:3000/v1';
 }
 
 // 设置post请求头

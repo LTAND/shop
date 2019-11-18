@@ -13,6 +13,8 @@ import './styles/index.scss' /* 引入样式 */
 import {api} from "./api/index"
 Vue.prototype.$api = api
 
+import http from "./util/http"
+Vue.prototype.$http = http 
 
 Vue.config.productionTip = false
 
